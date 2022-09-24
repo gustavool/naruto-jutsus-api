@@ -1,8 +1,8 @@
-import { Schema } from "mongoose";
+import mongoose from "mongoose";
 
-const jutsuSchema = new Schema({
+const jutsuSchema = new mongoose.Schema({
   _id: {
-    type: Schema.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     required: true,
   },
   names: {
@@ -112,4 +112,6 @@ const jutsuSchema = new Schema({
   },
 });
 
-export default jutsuSchema;
+const Jutsu = mongoose.model("Jutsu", jutsuSchema);
+
+export default Jutsu;
