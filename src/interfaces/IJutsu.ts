@@ -39,9 +39,9 @@ interface IJutsu {
   data?: Data;
   images?: Image[];
   description: string;
-  relatedJutsu?: any[];
-  parentJutsu?: any[];
-  derivedJutsu?: any[];
+  relatedJutsu?: string[];
+  parentJutsu?: string[];
+  derivedJutsu?: string[];
   users?: string[];
   createdAt: Date;
 }

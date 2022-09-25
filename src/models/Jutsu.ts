@@ -1,10 +1,7 @@
 import mongoose from "mongoose";
+import IJutsu from "../interfaces/IJutsu";
 
-const jutsuSchema = new mongoose.Schema({
-  _id: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: true,
-  },
+const JutsuSchema = new mongoose.Schema<IJutsu>({
   names: {
     englishName: {
       type: String,
@@ -103,7 +100,7 @@ const jutsuSchema = new mongoose.Schema({
     type: [String],
   },
 
-  usersJutsu: {
+  users: {
     type: [String],
   },
 
@@ -112,6 +109,4 @@ const jutsuSchema = new mongoose.Schema({
   },
 });
 
-const Jutsu = mongoose.model("Jutsu", jutsuSchema);
-
-export default Jutsu;
+export default mongoose.model("jutsu", JutsuSchema);
