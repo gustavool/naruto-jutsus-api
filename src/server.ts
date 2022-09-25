@@ -10,15 +10,6 @@ mongoose.connect(`${process.env.DATABASE_URL}`, () =>
   console.log("📦 Connected to database")
 );
 
-mongoose.connection.on("open", function (ref) {
-  console.log("Connected to mongo server.");
-  //trying to get collection names
-  mongoose.connection.db.listCollections().toArray(function (err, names) {
-    console.log(names); // [{ name: 'dbname.myCollection' }]
-    module.exports.Collection = names;
-  });
-});
-
 mongoose.set("debug", true);
 app.use(express.json());
 

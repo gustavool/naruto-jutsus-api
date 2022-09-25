@@ -1,3 +1,5 @@
+import mongoose from "mongoose";
+
 interface Names {
   englishName: string;
   kanjiName?: string;
@@ -34,6 +36,7 @@ interface Image {
 }
 
 interface IJutsu {
+  _id: mongoose.Schema.Types.ObjectId;
   names: Names;
   debut?: Debut;
   data?: Data;

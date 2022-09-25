@@ -4,8 +4,6 @@ import JutsuController from "./controllers/JutsuController";
 
 const router = Router();
 
-const jutsuController = new JutsuController();
-
-router.get("/jutsu/:id", jutsuController.findById);
+router.get("/jutsu/:id", new JutsuController().findById);
 
 export default router;

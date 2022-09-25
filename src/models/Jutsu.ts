@@ -2,6 +2,9 @@ import mongoose from "mongoose";
 import IJutsu from "../interfaces/IJutsu";
 
 const JutsuSchema = new mongoose.Schema<IJutsu>({
+  _id: {
+    type: mongoose.Schema.Types.ObjectId,
+  },
   names: {
     englishName: {
       type: String,
