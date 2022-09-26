@@ -27,7 +27,12 @@ class JutsuService {
     }
 
     const jutsus = await Jutsu.find(
-      {},
+      {
+        // $and: [
+        //   { "data.kekkeiGenkai": /Sharingan/i },
+        //   { "data.kekkeiGenkai": /Rinnegan/i },
+        // ],
+      },
       "_id names.englishName images.src images.alt"
     )
       .limit(pageSize)
@@ -35,6 +40,28 @@ class JutsuService {
 
     if (!jutsus) {
       throw new AppError("Jutsus not found", 404);
+    }
+
+    return jutsus;
+  }
+
+  async findByFilters(kekkeiGenkai?: string[]): Promise<IJutsu[]> {
+    if (!kekkeiGenkai) {
+      throw new AppError("Params is missing", 400);
+    }
+
+    const jutsus = await Jutsu.find(
+      {
+        $and: [
+          { "data.kekkeiGenkai": /Sharingan/i },
+          { "data.kekkeiGenkai": /Rinnegan/i },
+        ],
+      },
+      "_id names.englishName images.src images.alt"
+    );
+
+    if (!jutsus) {
+      throw new AppError("Jutsus with filters not found", 404);
     }
 
     return jutsus;
