@@ -45,19 +45,18 @@ class JutsuService {
     return jutsus;
   }
 
-  async findByFilters(kekkeiGenkai?: string[]): Promise<IJutsu[]> {
-    if (!kekkeiGenkai) {
+  async findByFilters(kekkeiGenkais?: string[]): Promise<IJutsu[]> {
+    if (!kekkeiGenkais) {
       throw new AppError("Params is missing", 400);
     }
 
     const jutsus = await Jutsu.find(
       {
-        $and: [
-          { "data.kekkeiGenkai": /Sharingan/i },
-          { "data.kekkeiGenkai": /Rinnegan/i },
-        ],
+        $and: kekkeiGenkais.map((kekkeiGenkai) => {
+          return { "data.kekkeiGenkai": kekkeiGenkai };
+        }),
       },
-      "_id names.englishName images.src images.alt"
+      "_id names.englishName images.src images.alt data.kekkeiGenkai"
     );
 
     if (!jutsus) {
