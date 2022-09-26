@@ -45,18 +45,33 @@ class JutsuService {
     return jutsus;
   }
 
-  async findByFilters(kekkeiGenkais?: string[]): Promise<IJutsu[]> {
-    if (!kekkeiGenkais) {
-      throw new AppError("Params is missing", 400);
+  async findByFilters(
+    kekkeiGenkais: string,
+    classifications: string
+  ): Promise<IJutsu[]> {
+    if (!kekkeiGenkais && !classifications) {
+      throw new AppError("Filters is missing", 400);
     }
+
+    const kekkeiParams = !!kekkeiGenkais
+      ? kekkeiGenkais.split(",").map((kekkeiGenkai) => {
+          return !!kekkeiGenkai && { "data.kekkeiGenkai": kekkeiGenkai };
+        })
+      : [{}];
+
+    const classificationParams = !!classifications
+      ? classifications.split(",").map((classification) => {
+          return !!classification && { "data.classification": classification };
+        })
+      : [{}];
+
+    console.log("classificationParams", classificationParams);
 
     const jutsus = await Jutsu.find(
       {
-        $and: kekkeiGenkais.map((kekkeiGenkai) => {
-          return { "data.kekkeiGenkai": kekkeiGenkai };
-        }),
+        $and: [...kekkeiParams, ...classificationParams],
       },
-      "_id names.englishName images.src images.alt data.kekkeiGenkai"
+      "_id names.englishName images.src images.alt data.kekkeiGenkai data.classification"
     );
 
     if (!jutsus) {

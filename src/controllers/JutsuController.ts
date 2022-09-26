@@ -23,16 +23,16 @@ class JutsuController {
   }
 
   async findByFilters(req: Request, res: Response): Promise<Response> {
-    const { kekkeiGenkais } = req.query;
-
-    console.log("kekkeiGenkais", kekkeiGenkais);
+    const kekkeiGenkais = !!req.query.kekkeiGenkais
+      ? String(req.query.kekkeiGenkais)
+      : "";
+    const classifications = !!req.query.classifications
+      ? String(req.query.classifications)
+      : "";
 
     const service = new JutsuService();
 
-    const kekkeiList = String(kekkeiGenkais).split(",");
-
-    console.log("kekkeiList", kekkeiList);
-    const jutsus = await service.findByFilters(kekkeiList);
+    const jutsus = await service.findByFilters(kekkeiGenkais, classifications);
 
     return res.json({ jutsus });
   }
