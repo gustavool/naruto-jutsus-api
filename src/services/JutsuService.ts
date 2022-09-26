@@ -9,7 +9,10 @@ class JutsuService {
       throw new AppError("Id is invalid", 400);
     }
 
-    const jutsu = await Jutsu.findById(id, "_id names.englishName description");
+    const jutsu = await Jutsu.findById(
+      id,
+      "_id names.englishName description images.src images.alt"
+    );
 
     if (!jutsu) {
       throw new AppError("Jutsu not found", 404);
@@ -19,14 +22,14 @@ class JutsuService {
   }
 
   async findAll(pageSize: number, page: number): Promise<IJutsu[]> {
-    console.log("pageSize", pageSize);
-    console.log("page", page);
     if (!pageSize || !page) {
-      console.log("entrou error");
-      throw new AppError("PageSize or page params is missing", 400);
+      throw new AppError("PageSize and/or Page params is missing", 400);
     }
 
-    const jutsus = await Jutsu.find({}, "_id names.englishName description")
+    const jutsus = await Jutsu.find(
+      {},
+      "_id names.englishName images.src images.alt"
+    )
       .limit(pageSize)
       .skip(pageSize * page);
 
