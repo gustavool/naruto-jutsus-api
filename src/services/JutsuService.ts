@@ -1,5 +1,5 @@
-import mongoose, { isValidObjectId } from "mongoose";
-import IJutsu from "../interfaces/IJutsu";
+import { isValidObjectId } from "mongoose";
+import IJutsu from "../models/IJutsu";
 import Jutsu from "../models/Jutsu";
 import { AppError } from "../utils/AppError";
 
@@ -18,8 +18,11 @@ class JutsuService {
     return jutsu;
   }
 
-  async findAll(pageSize: number, page: number) {
+  async findAll(pageSize: number, page: number): Promise<IJutsu[]> {
+    console.log("pageSize", pageSize);
+    console.log("page", page);
     if (!pageSize || !page) {
+      console.log("entrou error");
       throw new AppError("PageSize or page params is missing", 400);
     }
 

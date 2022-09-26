@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import IJutsu from "../interfaces/IJutsu";
+import IJutsu from "./IJutsu";
 
 const JutsuSchema = new mongoose.Schema<IJutsu>({
   _id: {
