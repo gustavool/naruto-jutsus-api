@@ -1,18 +1,19 @@
+import mongoose, { isValidObjectId } from "mongoose";
 import IJutsu from "../interfaces/IJutsu";
 import Jutsu from "../models/Jutsu";
+import { AppError } from "../utils/AppError";
 
 class JutsuService {
   async findById(id: string): Promise<IJutsu> {
-    console.log("chamou service");
-
-    const jutsu = await Jutsu.findById(id, "_id names.englishName description");
-    // const jutsu = await Jutsu.find().exec();
-
-    if (!jutsu) {
-      throw new Error();
+    if (!isValidObjectId(id)) {
+      throw new AppError("Id is invalid", 400);
     }
 
-    console.log("jutsu service", jutsu);
+    const jutsu = await Jutsu.findById(id, "_id names.englishName description");
+
+    if (!jutsu) {
+      throw new AppError("Jutsu not found", 404);
+    }
 
     return jutsu;
   }
