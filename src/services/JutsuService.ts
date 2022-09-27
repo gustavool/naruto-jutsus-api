@@ -1,18 +1,18 @@
 import { isValidObjectId } from "mongoose";
 import IJutsu from "../models/IJutsu";
 import Jutsu from "../models/Jutsu";
+import JutsuRepository from "../repositories/JutsuRepository";
 import { AppError } from "../utils/AppError";
 
 class JutsuService {
-  async findById(id: string): Promise<IJutsu> {
+  async findById(id: string): Promise<IJutsu | null> {
     if (!isValidObjectId(id)) {
       throw new AppError("Id is invalid", 400);
     }
 
-    const jutsu = await Jutsu.findById(
-      id,
-      "_id names.englishName images.src images.alt"
-    );
+    const repository = new JutsuRepository();
+
+    const jutsu = repository.findById(id);
 
     if (!jutsu) {
       throw new AppError("Jutsu not found", 404);
@@ -26,12 +26,9 @@ class JutsuService {
       throw new AppError("PageSize and/or Page params is missing", 400);
     }
 
-    const jutsus = await Jutsu.find(
-      {},
-      "_id names.englishName images.src images.alt"
-    )
-      .limit(pageSize)
-      .skip(pageSize * page);
+    const repository = new JutsuRepository();
+
+    const jutsus = repository.findAll(pageSize, page);
 
     if (!jutsus) {
       throw new AppError("Jutsus not found", 404);
@@ -67,11 +64,12 @@ class JutsuService {
         })
       : [{}];
 
-    const jutsus = await Jutsu.find(
-      {
-        $and: [...kekkeiParams, ...classificationParams, ...debutParams],
-      },
-      "_id names.englishName images.src images.alt"
+    const repository = new JutsuRepository();
+
+    const jutsus = repository.findByFilters(
+      kekkeiParams,
+      classificationParams,
+      debutParams
     );
 
     if (!jutsus) {
