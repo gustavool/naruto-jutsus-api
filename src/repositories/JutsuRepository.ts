@@ -1,7 +1,8 @@
 import IJutsu from "../models/IJutsu";
 import Jutsu from "../models/Jutsu";
+import IJutsuRepository from "./IJutsuRepository";
 
-class JutsuRepository {
+class JutsuRepository implements IJutsuRepository {
   async findById(id: string): Promise<IJutsu | null> {
     const jutsu = await Jutsu.findById(
       id,

@@ -1,10 +1,13 @@
 import "express-async-errors";
 import express from "express";
 import mongoose from "mongoose";
+import "reflect-metadata";
 import "dotenv/config";
 
 import router from "./routes";
 import errorHandler from "./middlewares/errorHandler";
+
+import "./container";
 
 const app = express();
 
@@ -13,6 +16,7 @@ mongoose.connect(`${process.env.DATABASE_URL}`, () =>
 );
 
 mongoose.set("debug", true);
+
 app.use(express.json());
 
 app.use(router);

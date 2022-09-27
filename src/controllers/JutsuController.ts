@@ -1,11 +1,12 @@
 import { Request, Response } from "express";
+import { container } from "tsyringe";
 import JutsuService from "../services/JutsuService";
 
 class JutsuController {
   async findById(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
 
-    const service = new JutsuService();
+    const service = container.resolve(JutsuService);
 
     const jutsu = await service.findById(id);
 
@@ -15,7 +16,7 @@ class JutsuController {
   async findAll(req: Request, res: Response): Promise<Response> {
     const { pageSize, page } = req.query;
 
-    const service = new JutsuService();
+    const service = container.resolve(JutsuService);
 
     const jutsus = await service.findAll(Number(pageSize), Number(page));
 
@@ -32,7 +33,7 @@ class JutsuController {
 
     const debuts = !!req.query.debuts ? String(req.query.debuts) : "";
 
-    const service = new JutsuService();
+    const service = container.resolve(JutsuService);
 
     const jutsus = await service.findByFilters(
       kekkeiGenkais,

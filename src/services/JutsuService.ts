@@ -1,18 +1,21 @@
 import { isValidObjectId } from "mongoose";
+import { inject, injectable } from "tsyringe";
 import IJutsu from "../models/IJutsu";
-import Jutsu from "../models/Jutsu";
-import JutsuRepository from "../repositories/JutsuRepository";
+import IJutsuRepository from "../repositories/IJutsuRepository";
 import { AppError } from "../utils/AppError";
 
+@injectable()
 class JutsuService {
+  constructor(
+    @inject("JutsuRepository") private jutsuRepository: IJutsuRepository
+  ) {}
+
   async findById(id: string): Promise<IJutsu | null> {
     if (!isValidObjectId(id)) {
       throw new AppError("Id is invalid", 400);
     }
 
-    const repository = new JutsuRepository();
-
-    const jutsu = repository.findById(id);
+    const jutsu = this.jutsuRepository.findById(id);
 
     if (!jutsu) {
       throw new AppError("Jutsu not found", 404);
@@ -26,9 +29,7 @@ class JutsuService {
       throw new AppError("PageSize and/or Page params is missing", 400);
     }
 
-    const repository = new JutsuRepository();
-
-    const jutsus = repository.findAll(pageSize, page);
+    const jutsus = this.jutsuRepository.findAll(pageSize, page);
 
     if (!jutsus) {
       throw new AppError("Jutsus not found", 404);
@@ -64,9 +65,7 @@ class JutsuService {
         })
       : [{}];
 
-    const repository = new JutsuRepository();
-
-    const jutsus = repository.findByFilters(
+    const jutsus = this.jutsuRepository.findByFilters(
       kekkeiParams,
       classificationParams,
       debutParams
