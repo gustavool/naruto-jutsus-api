@@ -47,9 +47,10 @@ class JutsuService {
 
   async findByFilters(
     kekkeiGenkais: string,
-    classifications: string
+    classifications: string,
+    debuts: string
   ): Promise<IJutsu[]> {
-    if (!kekkeiGenkais && !classifications) {
+    if (!kekkeiGenkais && !classifications && !debuts) {
       throw new AppError("Filters is missing", 400);
     }
 
@@ -65,13 +66,22 @@ class JutsuService {
         })
       : [{}];
 
-    console.log("classificationParams", classificationParams);
+    console.log("debuts", debuts);
+
+    const debutParams = !!debuts
+      ? debuts.split(",").map((debut) => {
+          return !!debut && { [`debut.${debut}`]: { $exists: true, $ne: "" } };
+        })
+      : [{}];
+
+    console.log("kekkeiParams", kekkeiParams);
+    console.log("debutParams", debutParams);
 
     const jutsus = await Jutsu.find(
       {
-        $and: [...kekkeiParams, ...classificationParams],
+        $and: [...kekkeiParams, ...classificationParams, ...debutParams],
       },
-      "_id names.englishName images.src images.alt data.kekkeiGenkai data.classification"
+      "_id names.englishName images.src images.alt data.kekkeiGenkai data.classification debut"
     );
 
     if (!jutsus) {

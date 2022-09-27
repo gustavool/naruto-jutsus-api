@@ -30,9 +30,15 @@ class JutsuController {
       ? String(req.query.classifications)
       : "";
 
+    const debuts = !!req.query.debuts ? String(req.query.debuts) : "";
+
     const service = new JutsuService();
 
-    const jutsus = await service.findByFilters(kekkeiGenkais, classifications);
+    const jutsus = await service.findByFilters(
+      kekkeiGenkais,
+      classifications,
+      debuts
+    );
 
     return res.json({ jutsus });
   }
