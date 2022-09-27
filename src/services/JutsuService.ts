@@ -11,7 +11,7 @@ class JutsuService {
 
     const jutsu = await Jutsu.findById(
       id,
-      "_id names.englishName description images.src images.alt"
+      "_id names.englishName images.src images.alt"
     );
 
     if (!jutsu) {
@@ -27,12 +27,7 @@ class JutsuService {
     }
 
     const jutsus = await Jutsu.find(
-      {
-        // $and: [
-        //   { "data.kekkeiGenkai": /Sharingan/i },
-        //   { "data.kekkeiGenkai": /Rinnegan/i },
-        // ],
-      },
+      {},
       "_id names.englishName images.src images.alt"
     )
       .limit(pageSize)
@@ -66,22 +61,17 @@ class JutsuService {
         })
       : [{}];
 
-    console.log("debuts", debuts);
-
     const debutParams = !!debuts
       ? debuts.split(",").map((debut) => {
           return !!debut && { [`debut.${debut}`]: { $exists: true, $ne: "" } };
         })
       : [{}];
 
-    console.log("kekkeiParams", kekkeiParams);
-    console.log("debutParams", debutParams);
-
     const jutsus = await Jutsu.find(
       {
         $and: [...kekkeiParams, ...classificationParams, ...debutParams],
       },
-      "_id names.englishName images.src images.alt data.kekkeiGenkai data.classification debut"
+      "_id names.englishName images.src images.alt"
     );
 
     if (!jutsus) {
