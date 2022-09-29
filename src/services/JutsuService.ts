@@ -15,7 +15,7 @@ class JutsuService {
       throw new AppError("Id is invalid", 400);
     }
 
-    const jutsu = this.jutsuRepository.findById(id);
+    const jutsu = await this.jutsuRepository.findById(id);
 
     if (!jutsu) {
       throw new AppError("Jutsu not found", 404);
@@ -29,7 +29,7 @@ class JutsuService {
       throw new AppError("PageSize and/or Page params is missing", 400);
     }
 
-    const jutsus = this.jutsuRepository.findAll(pageSize, page);
+    const jutsus = await this.jutsuRepository.findAll(pageSize, page);
 
     if (!jutsus) {
       throw new AppError("Jutsus not found", 404);
@@ -65,7 +65,7 @@ class JutsuService {
         })
       : [{}];
 
-    const jutsus = this.jutsuRepository.findByFilters(
+    const jutsus = await this.jutsuRepository.findByFilters(
       kekkeiParams,
       classificationParams,
       debutParams

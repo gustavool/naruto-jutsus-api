@@ -36,7 +36,7 @@ interface Image {
 }
 
 interface IJutsu {
-  _id: mongoose.Schema.Types.ObjectId;
+  _id: mongoose.Types.ObjectId;
   names: Names;
   debut?: Debut;
   data?: Data;

@@ -3,11 +3,10 @@ import express from "express";
 import mongoose from "mongoose";
 import "reflect-metadata";
 import "dotenv/config";
+import "./container";
 
 import router from "./routes";
 import errorHandler from "./middlewares/errorHandler";
-
-import "./container";
 
 const app = express();
 
