@@ -24,14 +24,14 @@ class JutsuService {
     return jutsu;
   }
 
-  async findAll(pageSize: number, page: number): Promise<IJutsu[]> {
+  async findAll(pageSize?: number, page?: number): Promise<IJutsu[]> {
     if (!pageSize || !page) {
       throw new AppError("PageSize and/or Page params is missing", 400);
     }
 
     const jutsus = await this.jutsuRepository.findAll(pageSize, page);
 
-    if (!jutsus) {
+    if (jutsus.length === 0) {
       throw new AppError("Jutsus not found", 404);
     }
 
