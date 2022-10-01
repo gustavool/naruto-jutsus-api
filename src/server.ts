@@ -8,6 +8,7 @@ import "./container";
 import router from "./routes";
 import errorHandler from "./middlewares/errorHandler";
 
+const PORT = process.env.PORT;
 const app = express();
 
 mongoose.connect(`${process.env.DATABASE_URL}`, () =>
@@ -22,6 +23,4 @@ app.use(router);
 
 app.use(errorHandler);
 
-app.listen(3000, () =>
-  console.log("🔥 Server is running at http://localhost:3000")
-);
+app.listen(PORT, () => console.log(`🔥 Server is running on PORT ${PORT}`));
