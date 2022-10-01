@@ -25,7 +25,7 @@ class JutsuController {
 
     const jutsu = await service.findByName(name, pageSize, page);
 
-    return res.json({ jutsu });
+    return res.json(jutsu);
   }
 
   async findAll(req: Request, res: Response): Promise<Response> {
@@ -38,7 +38,7 @@ class JutsuController {
 
     const jutsus = await service.findAll(pageSize, page);
 
-    return res.json({ jutsus });
+    return res.json(jutsus);
   }
 
   async findByFilters(req: Request, res: Response): Promise<Response> {

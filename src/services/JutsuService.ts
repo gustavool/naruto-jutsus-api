@@ -4,6 +4,12 @@ import IJutsu from "../models/IJutsu";
 import IJutsuRepository from "../repositories/IJutsuRepository";
 import { AppError } from "../utils/AppError";
 
+export interface IResponseJutsu {
+  total: number;
+  page: number;
+  pageSize: number;
+  jutsus: IJutsu[];
+}
 @injectable()
 class JutsuService {
   constructor(
@@ -28,20 +34,20 @@ class JutsuService {
     name: string,
     pageSize: number,
     page: number
-  ): Promise<IJutsu[]> {
+  ): Promise<IResponseJutsu> {
     const jutsu = await this.jutsuRepository.findByName(name, pageSize, page);
 
-    if (jutsu.length === 0) {
+    if (jutsu.pageSize === 0) {
       throw new AppError("Jutsu not found", 404);
     }
 
     return jutsu;
   }
 
-  async findAll(pageSize: number, page: number): Promise<IJutsu[]> {
+  async findAll(pageSize: number, page: number): Promise<IResponseJutsu> {
     const jutsus = await this.jutsuRepository.findAll(pageSize, page);
 
-    if (jutsus.length === 0) {
+    if (jutsus.pageSize === 0) {
       throw new AppError("Jutsus not found", 404);
     }
 
