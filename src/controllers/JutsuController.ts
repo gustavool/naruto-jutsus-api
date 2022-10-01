@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { container } from "tsyringe";
 import JutsuService from "../services/JutsuService";
 
+const PAGE_SIZE = 20;
 class JutsuController {
   async findById(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
@@ -13,12 +14,33 @@ class JutsuController {
     return res.json({ jutsu });
   }
 
-  async findAll(req: Request, res: Response): Promise<Response> {
-    const { pageSize, page } = req.query;
+  async findByName(req: Request, res: Response): Promise<Response> {
+    const pageSize = !!req.query.pageSize
+      ? Number(req.query.pageSize)
+      : PAGE_SIZE;
+    const pageNumber = !!req.query.pageNumber
+      ? Number(req.query.pageNumber)
+      : 0;
+    const { name } = req.params;
 
     const service = container.resolve(JutsuService);
 
-    const jutsus = await service.findAll(Number(pageSize), Number(page));
+    const jutsu = await service.findByName(name, pageSize, pageNumber);
+
+    return res.json({ jutsu });
+  }
+
+  async findAll(req: Request, res: Response): Promise<Response> {
+    const pageSize = !!req.query.pageSize
+      ? Number(req.query.pageSize)
+      : PAGE_SIZE;
+    const pageNumber = !!req.query.pageNumber
+      ? Number(req.query.pageNumber)
+      : 0;
+
+    const service = container.resolve(JutsuService);
+
+    const jutsus = await service.findAll(pageSize, pageNumber);
 
     return res.json({ jutsus });
   }

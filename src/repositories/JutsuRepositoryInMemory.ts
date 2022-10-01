@@ -23,10 +23,10 @@ class JutsuRepositoryInMemory implements IJutsuRepository {
     return !!jutsu ? jutsu : null;
   }
 
-  async findAll(pageSize: number, page: number): Promise<IJutsu[]> {
+  async findAll(pageSize: number, pageNumber: number): Promise<IJutsu[]> {
     const totalPagesAvailable = Math.ceil(this.jutsus.length / pageSize);
 
-    if (totalPagesAvailable < page) {
+    if (totalPagesAvailable < pageNumber) {
       return [];
     }
     return this.jutsus;

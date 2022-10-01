@@ -12,13 +12,29 @@ class JutsuRepository implements IJutsuRepository {
     return jutsu;
   }
 
-  async findAll(pageSize: number, page: number): Promise<IJutsu[]> {
+  async findByName(
+    name: string,
+    pageSize: number,
+    pageNumber: number
+  ): Promise<IJutsu[]> {
+    const regex = new RegExp(`^${name}`);
+    const jutsu = await Jutsu.find(
+      { "names.englishName": { $regex: regex, $options: "i" } },
+      "_id names.englishName images.src images.alt"
+    )
+      .limit(pageSize)
+      .skip(pageSize * pageNumber);
+
+    return jutsu;
+  }
+
+  async findAll(pageSize: number, pageNumber: number): Promise<IJutsu[]> {
     const jutsus = await Jutsu.find(
       {},
       "_id names.englishName images.src images.alt"
     )
       .limit(pageSize)
-      .skip(pageSize * page);
+      .skip(pageSize * pageNumber);
 
     return jutsus;
   }

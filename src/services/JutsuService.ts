@@ -24,12 +24,26 @@ class JutsuService {
     return jutsu;
   }
 
-  async findAll(pageSize?: number, page?: number): Promise<IJutsu[]> {
-    if (!pageSize || !page) {
-      throw new AppError("PageSize and/or Page params is missing", 400);
+  async findByName(
+    name: string,
+    pageSize: number,
+    pageNumber: number
+  ): Promise<IJutsu[]> {
+    const jutsu = await this.jutsuRepository.findByName(
+      name,
+      pageSize,
+      pageNumber
+    );
+
+    if (jutsu.length === 0) {
+      throw new AppError("Jutsu not found", 404);
     }
 
-    const jutsus = await this.jutsuRepository.findAll(pageSize, page);
+    return jutsu;
+  }
+
+  async findAll(pageSize: number, pageNumber: number): Promise<IJutsu[]> {
+    const jutsus = await this.jutsuRepository.findAll(pageSize, pageNumber);
 
     if (jutsus.length === 0) {
       throw new AppError("Jutsus not found", 404);
