@@ -2,7 +2,7 @@ import JutsuRepositoryInMemory from "../repositories/JutsuRepositoryInMemory";
 import { AppError } from "../utils/AppError";
 import JutsuService from "./JutsuService";
 
-describe("Find a jutsu by Id", () => {
+describe("Find jutsus", () => {
   let jutsuRepository: JutsuRepositoryInMemory;
   let jutsuService: JutsuService;
 
