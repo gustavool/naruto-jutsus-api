@@ -109,7 +109,7 @@ export const JutsusMock = [
     },
     data: {
       classification: ["Ninjutsu"],
-      kekkeiGenkai: [],
+      kekkeiGenkai: ["Sharingan"],
       type: ["Lightning Release"],
       class: ["Offensive"],
       range: ["Short range (0-5m)"],

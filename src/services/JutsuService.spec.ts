@@ -44,4 +44,58 @@ describe("Find a jutsu by Id", () => {
       new AppError("Jutsus not found", 404)
     );
   });
+
+  it("should return a list of jutsus searching by Classification", async () => {
+    const jutsusWithClassification = await jutsuService.findByFilters(
+      "",
+      "Ninjutsu",
+      ""
+    );
+
+    expect(jutsusWithClassification[0].data?.classification).toContain(
+      "Ninjutsu"
+    );
+    expect(jutsusWithClassification.length).toBe(2);
+  });
+
+  it("should return a list of jutsus searching by Classification and Debut", async () => {
+    const jutsusWithClassificationAndDebut = await jutsuService.findByFilters(
+      "",
+      "Ninjutsu",
+      "Anime"
+    );
+
+    expect(jutsusWithClassificationAndDebut[0].data?.classification).toContain(
+      "Ninjutsu"
+    );
+    expect(jutsusWithClassificationAndDebut[0].debut?.anime).not.toBe("");
+    expect(jutsusWithClassificationAndDebut.length).toBe(2);
+  });
+
+  it("should return a list of jutsus searching by Classification, KekkeiGenkai and Debut", async () => {
+    const jutsuWithKekkeiAndClassAndDebut = await jutsuService.findByFilters(
+      "Sharingan",
+      "Ninjutsu",
+      "Anime,Manga"
+    );
+
+    expect(jutsuWithKekkeiAndClassAndDebut[0].data?.kekkeiGenkai).toContain(
+      "Sharingan"
+    );
+    expect(jutsuWithKekkeiAndClassAndDebut[0].data?.classification).toContain(
+      "Ninjutsu"
+    );
+    expect(jutsuWithKekkeiAndClassAndDebut[0].debut?.anime).not.toBe("");
+    expect(jutsuWithKekkeiAndClassAndDebut.length).toBe(1);
+  });
+
+  it("should return error 404 if not found a list of jutsus by filter", async () => {
+    await expect(
+      jutsuService.findByFilters(
+        "Sharingan,Rinnegan",
+        "Ninjutsu",
+        "Anime,Manga"
+      )
+    ).rejects.toEqual(new AppError("Jutsus with filters not found", 404));
+  });
 });

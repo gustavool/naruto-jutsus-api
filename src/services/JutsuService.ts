@@ -61,7 +61,11 @@ class JutsuService {
 
     const debutParams = !!debuts
       ? debuts.split(",").map((debut) => {
-          return !!debut && { [`debut.${debut}`]: { $exists: true, $ne: "" } };
+          return (
+            !!debut && {
+              [`debut.${debut.toLowerCase()}`]: { $exists: true, $ne: "" },
+            }
+          );
         })
       : [{}];
 
@@ -71,7 +75,7 @@ class JutsuService {
       debutParams
     );
 
-    if (!jutsus) {
+    if (jutsus.length === 0) {
       throw new AppError("Jutsus with filters not found", 404);
     }
 
