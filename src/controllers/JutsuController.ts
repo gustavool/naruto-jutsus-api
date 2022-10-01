@@ -18,14 +18,12 @@ class JutsuController {
     const pageSize = !!req.query.pageSize
       ? Number(req.query.pageSize)
       : PAGE_SIZE;
-    const pageNumber = !!req.query.pageNumber
-      ? Number(req.query.pageNumber)
-      : 0;
+    const page = !!req.query.page ? Number(req.query.page) : 0;
     const { name } = req.params;
 
     const service = container.resolve(JutsuService);
 
-    const jutsu = await service.findByName(name, pageSize, pageNumber);
+    const jutsu = await service.findByName(name, pageSize, page);
 
     return res.json({ jutsu });
   }
@@ -34,13 +32,11 @@ class JutsuController {
     const pageSize = !!req.query.pageSize
       ? Number(req.query.pageSize)
       : PAGE_SIZE;
-    const pageNumber = !!req.query.pageNumber
-      ? Number(req.query.pageNumber)
-      : 0;
+    const page = !!req.query.page ? Number(req.query.page) : 0;
 
     const service = container.resolve(JutsuService);
 
-    const jutsus = await service.findAll(pageSize, pageNumber);
+    const jutsus = await service.findAll(pageSize, page);
 
     return res.json({ jutsus });
   }

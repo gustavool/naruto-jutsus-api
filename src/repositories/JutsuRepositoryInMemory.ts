@@ -16,6 +16,9 @@ export interface IClassificationParams {
 }
 
 class JutsuRepositoryInMemory implements IJutsuRepository {
+  findByName(name: string, pageSize: number, page: number): Promise<IJutsu[]> {
+    throw new Error("Method not implemented.");
+  }
   jutsus: IJutsu[] = JutsusMock;
 
   async findById(id: string): Promise<IJutsu | null> {
@@ -23,10 +26,10 @@ class JutsuRepositoryInMemory implements IJutsuRepository {
     return !!jutsu ? jutsu : null;
   }
 
-  async findAll(pageSize: number, pageNumber: number): Promise<IJutsu[]> {
+  async findAll(pageSize: number, page: number): Promise<IJutsu[]> {
     const totalPagesAvailable = Math.ceil(this.jutsus.length / pageSize);
 
-    if (totalPagesAvailable < pageNumber) {
+    if (totalPagesAvailable < page) {
       return [];
     }
     return this.jutsus;

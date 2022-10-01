@@ -33,12 +33,6 @@ describe("Find jutsus", () => {
     expect(jutsus.length).toBeLessThanOrEqual(20);
   });
 
-  it("should return error 400 if pageSize and/or page number params is missing", async () => {
-    await expect(jutsuService.findAll()).rejects.toEqual(
-      new AppError("PageSize and/or Page params is missing", 400)
-    );
-  });
-
   it("should return error 404 if not found a list of jutsus", async () => {
     await expect(jutsuService.findAll(20, 2)).rejects.toEqual(
       new AppError("Jutsus not found", 404)
