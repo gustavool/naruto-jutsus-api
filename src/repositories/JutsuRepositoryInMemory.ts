@@ -1,4 +1,5 @@
 import IJutsu from "../models/IJutsu";
+import { IResponseJutsu } from "../services/JutsuService";
 import {
   checkClassification,
   checkDebut,
@@ -16,7 +17,11 @@ export interface IClassificationParams {
 }
 
 class JutsuRepositoryInMemory implements IJutsuRepository {
-  findByName(name: string, pageSize: number, page: number): Promise<IJutsu[]> {
+  findByName(
+    name: string,
+    pageSize: number,
+    page: number
+  ): Promise<IResponseJutsu> {
     throw new Error("Method not implemented.");
   }
   jutsus: IJutsu[] = JutsusMock;
@@ -26,13 +31,15 @@ class JutsuRepositoryInMemory implements IJutsuRepository {
     return !!jutsu ? jutsu : null;
   }
 
-  async findAll(pageSize: number, page: number): Promise<IJutsu[]> {
+  async findAll(pageSize: number, page: number): Promise<IResponseJutsu> {
     const totalPagesAvailable = Math.ceil(this.jutsus.length / pageSize);
 
-    if (totalPagesAvailable < page) {
-      return [];
-    }
-    return this.jutsus;
+    return {
+      total: this.jutsus.length,
+      page,
+      pageSize: this.jutsus.length,
+      jutsus: totalPagesAvailable < page ? [] : this.jutsus,
+    };
   }
 
   async findByFilters(

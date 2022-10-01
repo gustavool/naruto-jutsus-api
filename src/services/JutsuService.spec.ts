@@ -30,7 +30,7 @@ describe("Find jutsus", () => {
 
   it("should return a list of jutsus searching by all with pageSize and page number params", async () => {
     const jutsus = await jutsuService.findAll(20, 1);
-    expect(jutsus.length).toBeLessThanOrEqual(20);
+    expect(jutsus.pageSize).toBeLessThanOrEqual(20);
   });
 
   it("should return error 404 if not found a list of jutsus", async () => {
