@@ -32,22 +32,20 @@ class JutsuService {
 
   async findByName(
     name: string,
-    pageSize: number,
+    limit: number,
     page: number
   ): Promise<IResponseJutsu> {
-    const jutsu = await this.jutsuRepository.findByName(name, pageSize, page);
+    const jutsu = await this.jutsuRepository.findByName(name, limit, page);
 
-    if (jutsu.total === 0) {
+    if (jutsu.jutsus.length === 0) {
       throw new AppError("Jutsu not found", 404);
     }
 
     return jutsu;
   }
 
-  async findAll(pageSize: number, page: number): Promise<IResponseJutsu> {
-    const jutsus = await this.jutsuRepository.findAll(pageSize, page);
-
-    console.log("jutsus", jutsus);
+  async findAll(limit: number, page: number): Promise<IResponseJutsu> {
+    const jutsus = await this.jutsuRepository.findAll(limit, page);
 
     if (jutsus.jutsus.length === 0) {
       throw new AppError("Jutsus not found", 404);

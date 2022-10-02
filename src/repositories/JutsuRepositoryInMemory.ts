@@ -17,22 +17,32 @@ export interface IClassificationParams {
 }
 
 class JutsuRepositoryInMemory implements IJutsuRepository {
-  findByName(
+  jutsus: IJutsu[] = JutsusMock;
+
+  async findByName(
     name: string,
-    pageSize: number,
+    limit: number,
     page: number
   ): Promise<IResponseJutsu> {
-    throw new Error("Method not implemented.");
+    const jutsusDocs = this.jutsus.filter((jutsu) =>
+      jutsu.names.englishName.includes(name)
+    );
+
+    return {
+      total: this.jutsus.length,
+      page,
+      pageSize: !!jutsusDocs ? jutsusDocs.length : 0,
+      jutsus: !!jutsusDocs ? jutsusDocs : [],
+    };
   }
-  jutsus: IJutsu[] = JutsusMock;
 
   async findById(id: string): Promise<IJutsu | null> {
     const jutsu = this.jutsus.find((jutsu) => jutsu._id.toString() === id);
     return !!jutsu ? jutsu : null;
   }
 
-  async findAll(pageSize: number, page: number): Promise<IResponseJutsu> {
-    const totalPagesAvailable = Math.ceil(this.jutsus.length / pageSize);
+  async findAll(limit: number, page: number): Promise<IResponseJutsu> {
+    const totalPagesAvailable = Math.ceil(this.jutsus.length / limit);
 
     return {
       total: this.jutsus.length,

@@ -28,7 +28,19 @@ describe("Find jutsus", () => {
     );
   });
 
-  it("should return a list of jutsus searching by all with pageSize and page number params", async () => {
+  it("should return a jutsu searching by name", async () => {
+    const jutsu = await jutsuService.findByName("Chid", 20, 0);
+    expect(jutsu.jutsus[0]._id.toString()).toBe("4321893fb1004c98474d0fac");
+    expect(jutsu.pageSize).toBe(1);
+  });
+
+  it("should return error 404 if not found a list of jutsus by name", async () => {
+    await expect(jutsuService.findByName("Susanoo", 20, 0)).rejects.toEqual(
+      new AppError("Jutsu not found", 404)
+    );
+  });
+
+  it("should return a list of jutsus searching by all with limit and page number params", async () => {
     const jutsus = await jutsuService.findAll(20, 1);
     expect(jutsus.pageSize).toBeLessThanOrEqual(20);
   });

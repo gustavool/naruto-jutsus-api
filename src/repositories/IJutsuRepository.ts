@@ -6,11 +6,11 @@ interface IJutsuRepository {
 
   findByName(
     name: string,
-    pageSize: number,
+    limit: number,
     page: number
   ): Promise<IResponseJutsu>;
 
-  findAll(pageSize: number, page: number): Promise<IResponseJutsu>;
+  findAll(limit: number, page: number): Promise<IResponseJutsu>;
 
   findByFilters(
     kekkeiParams: Object[],
