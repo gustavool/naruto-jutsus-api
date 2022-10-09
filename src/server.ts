@@ -7,6 +7,7 @@ import "./container";
 
 import router from "./routes";
 import errorHandler from "./middlewares/errorHandler";
+import corsHandler from "./middlewares/corsHandler";
 
 const PORT = process.env.PORT;
 const app = express();
@@ -16,6 +17,8 @@ mongoose.connect(`${process.env.DATABASE_URL}`, () =>
 );
 
 mongoose.set("debug", true);
+
+app.use(corsHandler());
 
 app.use(express.json());
 
