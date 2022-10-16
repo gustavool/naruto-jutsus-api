@@ -13,6 +13,8 @@ interface IJutsuRepository {
   findAll(limit: number, page: number): Promise<IResponseJutsu>;
 
   findByFilters(
+    limit: number,
+    page: number,
     kekkeiParams: Object[],
     classificationParams: Object[],
     debutParams: Object[]

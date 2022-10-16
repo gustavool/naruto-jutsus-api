@@ -53,6 +53,8 @@ describe("Find jutsus", () => {
 
   it("should return a list of jutsus searching by Classification", async () => {
     const jutsusWithClassification = await jutsuService.findByFilters(
+      20,
+      0,
       "",
       "Ninjutsu",
       ""
@@ -66,6 +68,8 @@ describe("Find jutsus", () => {
 
   it("should return a list of jutsus searching by Classification and Debut", async () => {
     const jutsusWithClassificationAndDebut = await jutsuService.findByFilters(
+      20,
+      0,
       "",
       "Ninjutsu",
       "Anime"
@@ -80,6 +84,8 @@ describe("Find jutsus", () => {
 
   it("should return a list of jutsus searching by Classification, KekkeiGenkai and Debut", async () => {
     const jutsuWithKekkeiAndClassAndDebut = await jutsuService.findByFilters(
+      20,
+      0,
       "Sharingan",
       "Ninjutsu",
       "Anime,Manga"
@@ -98,6 +104,8 @@ describe("Find jutsus", () => {
   it("should return error 404 if not found a list of jutsus by filter", async () => {
     await expect(
       jutsuService.findByFilters(
+        20,
+        0,
         "Sharingan,Rinnegan",
         "Ninjutsu",
         "Anime,Manga"

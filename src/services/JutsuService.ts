@@ -55,6 +55,8 @@ class JutsuService {
   }
 
   async findByFilters(
+    limit: number,
+    page: number,
     kekkeiGenkais: string,
     classifications: string,
     debuts: string
@@ -86,6 +88,8 @@ class JutsuService {
       : [{}];
 
     const jutsus = await this.jutsuRepository.findByFilters(
+      limit,
+      page,
       kekkeiParams,
       classificationParams,
       debutParams

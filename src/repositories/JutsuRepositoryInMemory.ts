@@ -53,6 +53,8 @@ class JutsuRepositoryInMemory implements IJutsuRepository {
   }
 
   async findByFilters(
+    limit: number,
+    page: number,
     kekkeiParams: IKekkeiParams[],
     classificationParams: IClassificationParams[],
     debutParams: Object[]

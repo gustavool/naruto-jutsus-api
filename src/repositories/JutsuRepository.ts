@@ -57,6 +57,8 @@ class JutsuRepository implements IJutsuRepository {
   }
 
   async findByFilters(
+    pageSize: number,
+    page: number,
     kekkeiParams: Object[],
     classificationParams: Object[],
     debutParams: Object[]
@@ -66,7 +68,10 @@ class JutsuRepository implements IJutsuRepository {
         $and: [...kekkeiParams, ...classificationParams, ...debutParams],
       },
       "_id names.englishName images.src images.alt"
-    ).sort({ "names.englishName": 1 });
+    )
+      .sort({ "names.englishName": 1 })
+      .limit(pageSize)
+      .skip(pageSize * page);
 
     return jutsus;
   }
