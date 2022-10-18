@@ -61,11 +61,11 @@ class JutsuRepositoryInMemory implements IJutsuRepository {
   ): Promise<IResponseJutsu> {
     let filteredJutsus = [] as IJutsu[];
 
-    const returnObj = {
-      total: this.jutsus.length,
+    const responseObj = {
+      total: 0,
       page,
-      pageSize: this.jutsus.length,
-      jutsus: totalPagesAvailable < page ? [] : this.jutsus,
+      pageSize: 0,
+      jutsus: [],
     };
 
     if (kekkeiParams.length > 0 && Object.keys(kekkeiParams[0]).length > 0) {
@@ -74,7 +74,7 @@ class JutsuRepositoryInMemory implements IJutsuRepository {
       if (kekkeiJutsus.length > 0) {
         filteredJutsus.push(...kekkeiJutsus);
       } else {
-        return [];
+        return responseObj;
       }
     }
 
@@ -87,7 +87,7 @@ class JutsuRepositoryInMemory implements IJutsuRepository {
         filteredJutsus = [];
         filteredJutsus.push(...debutJutsus);
       } else {
-        return [];
+        return responseObj;
       }
     }
     if (
@@ -105,9 +105,16 @@ class JutsuRepositoryInMemory implements IJutsuRepository {
         filteredJutsus = [];
         filteredJutsus.push(...classificationJutsus);
       } else {
-        return [];
+        return responseObj;
       }
     }
+
+    return {
+      total: this.jutsus.length,
+      page,
+      pageSize: this.jutsus.length,
+      jutsus: filteredJutsus,
+    };
   }
 }
 
