@@ -60,7 +60,7 @@ class JutsuService {
     kekkeiGenkais: string,
     classifications: string,
     debuts: string
-  ): Promise<IJutsu[]> {
+  ): Promise<IResponseJutsu> {
     if (!kekkeiGenkais && !classifications && !debuts) {
       throw new AppError("Filters is missing", 400);
     }
@@ -95,7 +95,7 @@ class JutsuService {
       debutParams
     );
 
-    if (jutsus.length === 0) {
+    if (jutsus.jutsus.length === 0) {
       throw new AppError("Jutsus with filters not found", 404);
     }
 

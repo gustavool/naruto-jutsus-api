@@ -18,7 +18,7 @@ interface IJutsuRepository {
     kekkeiParams: Object[],
     classificationParams: Object[],
     debutParams: Object[]
-  ): Promise<IJutsu[]>;
+  ): Promise<IResponseJutsu>;
 }
 
 export default IJutsuRepository;

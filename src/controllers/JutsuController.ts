@@ -60,7 +60,7 @@ class JutsuController {
       debuts
     );
 
-    return res.json({ jutsus });
+    return res.json(jutsus);
   }
 }
 

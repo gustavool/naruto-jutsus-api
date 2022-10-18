@@ -62,7 +62,7 @@ class JutsuRepository implements IJutsuRepository {
     kekkeiParams: Object[],
     classificationParams: Object[],
     debutParams: Object[]
-  ): Promise<IJutsu[]> {
+  ): Promise<IResponseJutsu> {
     const jutsus = await Jutsu.find(
       {
         $and: [...kekkeiParams, ...classificationParams, ...debutParams],
@@ -73,7 +73,16 @@ class JutsuRepository implements IJutsuRepository {
       .limit(pageSize)
       .skip(pageSize * page);
 
-    return jutsus;
+    const count = await Jutsu.countDocuments({
+      $and: [...kekkeiParams, ...classificationParams, ...debutParams],
+    });
+
+    return {
+      total: count,
+      page,
+      pageSize: jutsus.length,
+      jutsus: jutsus,
+    };
   }
 }
 

@@ -60,10 +60,10 @@ describe("Find jutsus", () => {
       ""
     );
 
-    expect(jutsusWithClassification[0].data?.classification).toContain(
+    expect(jutsusWithClassification.jutsus[0].data?.classification).toContain(
       "Ninjutsu"
     );
-    expect(jutsusWithClassification.length).toBe(2);
+    expect(jutsusWithClassification.jutsus.length).toBe(2);
   });
 
   it("should return a list of jutsus searching by Classification and Debut", async () => {
@@ -75,11 +75,13 @@ describe("Find jutsus", () => {
       "Anime"
     );
 
-    expect(jutsusWithClassificationAndDebut[0].data?.classification).toContain(
-      "Ninjutsu"
+    expect(
+      jutsusWithClassificationAndDebut.jutsus[0].data?.classification
+    ).toContain("Ninjutsu");
+    expect(jutsusWithClassificationAndDebut.jutsus[0].debut?.anime).not.toBe(
+      ""
     );
-    expect(jutsusWithClassificationAndDebut[0].debut?.anime).not.toBe("");
-    expect(jutsusWithClassificationAndDebut.length).toBe(2);
+    expect(jutsusWithClassificationAndDebut.jutsus.length).toBe(2);
   });
 
   it("should return a list of jutsus searching by Classification, KekkeiGenkai and Debut", async () => {
@@ -91,14 +93,14 @@ describe("Find jutsus", () => {
       "Anime,Manga"
     );
 
-    expect(jutsuWithKekkeiAndClassAndDebut[0].data?.kekkeiGenkai).toContain(
-      "Sharingan"
-    );
-    expect(jutsuWithKekkeiAndClassAndDebut[0].data?.classification).toContain(
-      "Ninjutsu"
-    );
-    expect(jutsuWithKekkeiAndClassAndDebut[0].debut?.anime).not.toBe("");
-    expect(jutsuWithKekkeiAndClassAndDebut.length).toBe(1);
+    expect(
+      jutsuWithKekkeiAndClassAndDebut.jutsus[0].data?.kekkeiGenkai
+    ).toContain("Sharingan");
+    expect(
+      jutsuWithKekkeiAndClassAndDebut.jutsus[0].data?.classification
+    ).toContain("Ninjutsu");
+    expect(jutsuWithKekkeiAndClassAndDebut.jutsus[0].debut?.anime).not.toBe("");
+    expect(jutsuWithKekkeiAndClassAndDebut.jutsus.length).toBe(1);
   });
 
   it("should return error 404 if not found a list of jutsus by filter", async () => {
