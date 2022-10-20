@@ -57,6 +57,7 @@ describe("Find jutsus", () => {
       0,
       "",
       "Ninjutsu",
+      "",
       ""
     );
 
@@ -72,7 +73,8 @@ describe("Find jutsus", () => {
       0,
       "",
       "Ninjutsu",
-      "Anime"
+      "Anime",
+      ""
     );
 
     expect(
@@ -90,7 +92,8 @@ describe("Find jutsus", () => {
       0,
       "Sharingan",
       "Ninjutsu",
-      "Anime,Manga"
+      "Anime,Manga",
+      ""
     );
 
     expect(
@@ -110,7 +113,8 @@ describe("Find jutsus", () => {
         0,
         "Sharingan,Rinnegan",
         "Ninjutsu",
-        "Anime,Manga"
+        "Anime,Manga",
+        ""
       )
     ).rejects.toEqual(new AppError("Jutsus with filters not found", 404));
   });

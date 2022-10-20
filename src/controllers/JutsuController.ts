@@ -47,8 +47,8 @@ class JutsuController {
     const classifications = !!req.query.classifications
       ? String(req.query.classifications)
       : "";
-
     const debuts = !!req.query.debuts ? String(req.query.debuts) : "";
+    const types = !!req.query.types ? String(req.query.types) : "";
 
     const service = container.resolve(JutsuService);
 
@@ -57,7 +57,8 @@ class JutsuController {
       page,
       kekkeiGenkais,
       classifications,
-      debuts
+      debuts,
+      types
     );
 
     return res.json(jutsus);

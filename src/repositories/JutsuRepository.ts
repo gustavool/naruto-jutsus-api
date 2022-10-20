@@ -61,11 +61,17 @@ class JutsuRepository implements IJutsuRepository {
     page: number,
     kekkeiParams: Object[],
     classificationParams: Object[],
-    debutParams: Object[]
+    debutParams: Object[],
+    typeParams: Object[]
   ): Promise<IResponseJutsu> {
     const jutsus = await Jutsu.find(
       {
-        $and: [...kekkeiParams, ...classificationParams, ...debutParams],
+        $and: [
+          ...kekkeiParams,
+          ...classificationParams,
+          ...debutParams,
+          ...typeParams,
+        ],
       },
       "_id names.englishName images.src images.alt"
     )
@@ -74,7 +80,12 @@ class JutsuRepository implements IJutsuRepository {
       .skip(pageSize * page);
 
     const count = await Jutsu.countDocuments({
-      $and: [...kekkeiParams, ...classificationParams, ...debutParams],
+      $and: [
+        ...kekkeiParams,
+        ...classificationParams,
+        ...debutParams,
+        ...typeParams,
+      ],
     });
 
     return {

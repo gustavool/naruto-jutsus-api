@@ -59,9 +59,10 @@ class JutsuService {
     page: number,
     kekkeiGenkais: string,
     classifications: string,
-    debuts: string
+    debuts: string,
+    types: string
   ): Promise<IResponseJutsu> {
-    if (!kekkeiGenkais && !classifications && !debuts) {
+    if (!kekkeiGenkais && !classifications && !debuts && !types) {
       throw new AppError("Filters is missing", 400);
     }
 
@@ -74,6 +75,12 @@ class JutsuService {
     const classificationParams = !!classifications
       ? classifications.split(",").map((classification) => {
           return !!classification && { "data.classification": classification };
+        })
+      : [{}];
+
+    const typeParams = !!types
+      ? types.split(",").map((type) => {
+          return !!type && { "data.type": type };
         })
       : [{}];
 
@@ -92,7 +99,8 @@ class JutsuService {
       page,
       kekkeiParams,
       classificationParams,
-      debutParams
+      debutParams,
+      typeParams
     );
 
     if (jutsus.jutsus.length === 0) {
