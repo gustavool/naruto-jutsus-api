@@ -40,6 +40,7 @@ class JutsuController {
   async findByFilters(req: Request, res: Response): Promise<Response> {
     const limit = !!req.query.limit ? Number(req.query.limit) : LIMIT_SIZE;
     const page = !!req.query.page ? Number(req.query.page) : 0;
+    const name = !!req.query.name ? String(req.query.name) : "";
 
     const kekkeiGenkais = !!req.query.kekkeiGenkais
       ? String(req.query.kekkeiGenkais)
@@ -53,6 +54,7 @@ class JutsuController {
     const service = container.resolve(JutsuService);
 
     const jutsus = await service.findByFilters(
+      name,
       limit,
       page,
       kekkeiGenkais,

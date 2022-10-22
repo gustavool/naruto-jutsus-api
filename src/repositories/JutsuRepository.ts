@@ -57,6 +57,7 @@ class JutsuRepository implements IJutsuRepository {
   }
 
   async findByFilters(
+    name: string,
     pageSize: number,
     page: number,
     kekkeiParams: Object[],
@@ -64,8 +65,15 @@ class JutsuRepository implements IJutsuRepository {
     debutParams: Object[],
     typeParams: Object[]
   ): Promise<IResponseJutsu> {
+    const regex = new RegExp(`${name}`);
+    console.log("name repo", name);
+    const queryName = !!name
+      ? { "names.englishName": { $regex: regex, $options: "i" } }
+      : null;
+
     const jutsus = await Jutsu.find(
       {
+        ...queryName,
         $and: [
           ...kekkeiParams,
           ...classificationParams,
@@ -80,6 +88,7 @@ class JutsuRepository implements IJutsuRepository {
       .skip(pageSize * page);
 
     const count = await Jutsu.countDocuments({
+      ...queryName,
       $and: [
         ...kekkeiParams,
         ...classificationParams,

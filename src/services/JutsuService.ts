@@ -55,6 +55,7 @@ class JutsuService {
   }
 
   async findByFilters(
+    name: string,
     limit: number,
     page: number,
     kekkeiGenkais: string,
@@ -62,9 +63,11 @@ class JutsuService {
     debuts: string,
     types: string
   ): Promise<IResponseJutsu> {
-    if (!kekkeiGenkais && !classifications && !debuts && !types) {
-      throw new AppError("Filters is missing", 400);
-    }
+    console.log("name", name);
+
+    // if (!kekkeiGenkais && !classifications && !debuts && !types) {
+    //   throw new AppError("Filters is missing", 400);
+    // }
 
     const kekkeiParams = !!kekkeiGenkais
       ? kekkeiGenkais.split(",").map((kekkeiGenkai) => {
@@ -95,6 +98,7 @@ class JutsuService {
       : [{}];
 
     const jutsus = await this.jutsuRepository.findByFilters(
+      name,
       limit,
       page,
       kekkeiParams,
