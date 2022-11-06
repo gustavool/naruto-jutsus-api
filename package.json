@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node src/server.ts",
+    "build": "npx tsc",
+    "start": "node dist/src/server.js",
     "dev": "npx ts-node-dev --exit-child --respawn --transpile-only --ignore-watch node_modules src/server.ts",
     "test": "jest"
   },
