@@ -11,7 +11,7 @@ class JutsuController {
 
     const jutsu = await service.findById(id);
 
-    return res.json({ jutsu });
+    return res.json(jutsu);
   }
 
   async findByName(req: Request, res: Response): Promise<Response> {

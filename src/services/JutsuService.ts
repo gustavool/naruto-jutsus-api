@@ -63,12 +63,6 @@ class JutsuService {
     debuts: string,
     types: string
   ): Promise<IResponseJutsu> {
-    console.log("name", name);
-
-    // if (!kekkeiGenkais && !classifications && !debuts && !types) {
-    //   throw new AppError("Filters is missing", 400);
-    // }
-
     const kekkeiParams = !!kekkeiGenkais
       ? kekkeiGenkais.split(",").map((kekkeiGenkai) => {
           return !!kekkeiGenkai && { "data.kekkeiGenkai": kekkeiGenkai };

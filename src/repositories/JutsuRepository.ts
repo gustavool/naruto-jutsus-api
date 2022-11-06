@@ -1,15 +1,11 @@
 import IJutsu from "../models/IJutsu";
 import Jutsu from "../models/Jutsu";
 import { IResponseJutsu } from "../services/JutsuService";
-import { AppError } from "../utils/AppError";
 import IJutsuRepository from "./IJutsuRepository";
 
 class JutsuRepository implements IJutsuRepository {
   async findById(id: string): Promise<IJutsu | null> {
-    const jutsu = await Jutsu.findById(
-      id,
-      "_id names.englishName images.src images.alt"
-    );
+    const jutsu = await Jutsu.findById(id, { createdAt: 0 });
 
     return jutsu;
   }
@@ -66,7 +62,6 @@ class JutsuRepository implements IJutsuRepository {
     typeParams: Object[]
   ): Promise<IResponseJutsu> {
     const regex = new RegExp(`${name}`);
-    console.log("name repo", name);
     const queryName = !!name
       ? { "names.englishName": { $regex: regex, $options: "i" } }
       : null;
