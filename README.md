@@ -12,6 +12,7 @@ An API to get the jutsus of the anime Naruto from MongoDB. Created GET requests 
 - Mongoose
 - MongoDB
 - Tsyringe
+- Jest
 
 ## Endpoints
 
