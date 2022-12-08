@@ -1,4 +1,4 @@
-# Auth JWT API
+# Naruto Jutsus API
 
 ## Description
 
